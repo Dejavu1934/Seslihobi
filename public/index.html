@@ -1,89 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>Pangi - Canlı Sesli Sohbet</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: Arial; background: #1a1a1a; color: white; margin: 0; }
-        .container { max-width: 800px; margin: auto; padding: 10px; }
-        .rooms { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
-        .room { background: #e91e63; padding: 15px; border-radius: 10px; cursor: pointer; flex: 1; text-align: center; }
-        .chat { height: 400px; background: #2a2a2a; border-radius: 10px; overflow-y: auto; padding: 10px; }
-        .msg { margin: 5px 0; }
-        .bot { color: #4caf50; }
-        .controls { margin-top: 10px; display: flex; gap: 10px; }
-        input { flex: 1; padding: 10px; border-radius: 5px; border: none; }
-        button { background: #e91e63; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
-        #mic { background: #f44336; }
-        #mic.active { background: #4caf50; }
-        .users { background: #2a2a2a; padding: 10px; border-radius: 10px; margin-bottom: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SesliHobi - Canlı Sohbet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><text x="20" y="20" font-size="20" text-anchor="middle" fill="%23ddd" opacity="0.3">SH</text></svg>');
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    .login-title {
+      font-size: 22px;
+      color: #555;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    .input-group {
+      display: flex;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .input-group .icon {
+      background: #4A90E2;
+      color: white;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+    }
+    .input-group .sh-logo {
+      background: #E91E63;
+      color: white;
+      padding: 12px 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .input-group input {
+      border: none;
+      outline: none;
+      padding: 12px;
+      flex: 1;
+      font-size: 16px;
+    }
+    .gender-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .gender-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .gender-btn.active {
+      background: #ddd;
+      font-weight: bold;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(to bottom, #FFD54F, #FFB300);
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎤 Pangi Canlı Sohbet</h1>
-        <div class="rooms">
-            <div class="room" onclick="joinRoom('Genel Sohbet')">Genel Sohbet</div>
-            <div class="room" onclick="joinRoom('Oyun')">Oyun</div>
-            <div class="room" onclick="joinRoom('Müzik')">Müzik</div>
-            <div class="room" onclick="joinRoom('Gece Kuşları')">Gece Kuşları</div>
-        </div>
-        <div class="users" id="users">Odaya gir...</div>
-        <div class="chat" id="chat"></div>
-        <div class="controls">
-            <input id="msg" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter') sendMsg()">
-            <button onclick="sendMsg()">Gönder</button>
-            <button id="mic" onclick="toggleMic()">🎤 Mikrofon</button>
-        </div>
+  <div class="login-box" id="login">
+    <div class="login-title">SesliHobi</div>
+    <div class="input-group">
+      <div class="icon">👤</div>
+      <input type="text" id="nickname" placeholder="Nick yazın">
+      <div class="sh-logo">SH</div>
     </div>
+    <div class="gender-group">
+      <button class="gender-btn active" onclick="selectGender('Erkek', this)">Erkek</button>
+      <button class="gender-btn" onclick="selectGender('Kadın', this)">Kadın</button>
+    </div>
+    <button class="login-btn" onclick="girisYap()">Bağlan!</button>
+    <div class="footer">
+      <span>Gizlilik</span>
+      <span>Kurallar</span>
+      <span>Türkçe</span>
+    </div>
+  </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        let currentRoom = "";
-        let micOn = false;
-        let localStream;
+  <script>
+    let selectedGender = 'Erkek';
+    function selectGender(gender, el) {
+      selectedGender = gender;
+      document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+    }
+    
+    function girisYap() {
+      const nick = document.getElementById('nickname').value;
+      if(!nick || nick.trim() === '') {
+        alert('Lütfen nick yazın');
+        return;
+      }
+      localStorage.setItem('nick', nick);
+      localStorage.setItem('gender', selectedGender);
+      alert('Giriş başarılı: ' + nick + ' - ' + selectedGender);
+      // Sonraki adımda buraya sohbet ekranını bağlayacağız
+    }
 
-        function joinRoom(room) {
-            currentRoom = room;
-            socket.emit('joinRoom', room);
-            document.getElementById('chat').innerHTML = `<div class="msg">** ${room} odasına girdin **</div>`;
-        }
-
-        socket.on('roomUsers', (users) => {
-            document.getElementById('users').innerHTML = `Odada ${users.length} kişi: ` + users.map(u => u.name).join(', ');
-        });
-
-        socket.on('message', (data) => {
-            const chat = document.getElementById('chat');
-            chat.innerHTML += `<div class="msg ${data.isBot ? 'bot' : ''}"><b>${data.user}:</b> ${data.text}</div>`;
-            chat.scrollTop = chat.scrollHeight;
-        });
-
-        function sendMsg() {
-            const msg = document.getElementById('msg').value;
-            if(msg && currentRoom) {
-                socket.emit('message', { room: currentRoom, text: msg, user: "Sen" });
-                document.getElementById('msg').value = "";
-            }
-        }
-
-        async function toggleMic() {
-            const btn = document.getElementById('mic');
-            if(!micOn) {
-                localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                micOn = true;
-                btn.classList.add('active');
-                btn.innerText = "🔴 Canlı";
-            } else {
-                localStream.getTracks().forEach(track => track.stop());
-                micOn = false;
-                btn.classList.remove('active');
-                btn.innerText = "🎤 Mikrofon";
-            }
-        }
-
-        joinRoom('Genel Sohbet');
-    </script>
+    window.onload = () => {
+      const random = Math.floor(Math.random() * 999);
+      document.getElementById('nickname').value = 'SesliHobi-' + random;
+    }
+  </script>
 </body>
 </html>
