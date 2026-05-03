@@ -1,31 +1,155 @@
-const express = require('express');
-const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const path = require('path');
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SesliHobi - Canlı Sohbet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><text x="20" y="20" font-size="20" text-anchor="middle" fill="%23ddd" opacity="0.3">SH</text></svg>');
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    .login-title {
+      font-size: 22px;
+      color: #555;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    .input-group {
+      display: flex;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+    .input-group .icon {
+      background: #4A90E2;
+      color: white;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+    }
+    .input-group .sh-logo {
+      background: #E91E63;
+      color: white;
+      padding: 12px 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .input-group input {
+      border: none;
+      outline: none;
+      padding: 12px;
+      flex: 1;
+      font-size: 16px;
+    }
+    .gender-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .gender-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .gender-btn.active {
+      background: #ddd;
+      font-weight: bold;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(to bottom, #FFD54F, #FFB300);
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      cursor: pointer;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      font-size: 14px;
+      color: #777;
+    }
+    #chat { display: none; }
+  </style>
+</head>
+<body>
+  <div class="login-box" id="login">
+    <div class="login-title">SesliHobi</div>
+    <div class="input-group">
+      <div class="icon">👤</div>
+      <input type="text" id="nickname" placeholder="Nick yazın" value="SesliHobi-">
+      <div class="sh-logo">SH</div>
+    </div>
+    <div class="gender-group">
+      <button class="gender-btn active" onclick="selectGender('Erkek', this)">Erkek</button>
+      <button class="gender-btn" onclick="selectGender('Kadın', this)">Kadın</button>
+    </div>
+    <button class="login-btn" onclick="girisYap()">Bağlan!</button>
+    <div class="footer">
+      <span>Gizlilik</span>
+      <span>Kurallar</span>
+      <span>Türkçe</span>
+    </div>
+  </div>
 
-app.use(express.static('public'));
+  <div id="chat">
+    <!-- Eski sohbet ekranın buraya gelecek -->
+  </div>
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
-});
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let selectedGender = 'Erkek';
+    function selectGender(gender, el) {
+      selectedGender = gender;
+      document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+    }
+    
+    function girisYap() {
+      const nick = document.getElementById('nickname').value;
+      if(!nick || nick === 'SesliHobi-') {
+        alert('Lütfen nick yazın');
+        return;
+      }
+      // Nick'i kaydet ve sohbete geç
+      localStorage.setItem('nick', nick);
+      localStorage.setItem('gender', selectedGender);
+      document.getElementById('login').style.display = 'none';
+      document.getElementById('chat').style.display = 'block';
+      // Eski sohbet kodunu başlat
+      window.location.reload();
+    }
 
-io.on('connection', (socket) => {
-  console.log('Kullanıcı bağlandı:', socket.id);
-  
-  socket.on('giris', (data) => {
-    console.log('Giriş yapan:', data.nickname, data.gender);
-    socket.nickname = data.nickname;
-    socket.gender = data.gender;
-    socket.emit('giris_basarili');
-  });
-  
-  socket.on('disconnect', () => {
-    console.log('Kullanıcı ayrıldı:', socket.nickname);
-  });
-});
-
-const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
-  console.log('Sunucu çalışıyor: ' + PORT);
-});
+    // Random nick üret
+    window.onload = () => {
+      const random = Math.floor(Math.random() * 999);
+      document.getElementById('nickname').value = 'SesliHobi-' + random;
+    }
+  </script>
+</body>
+</html>
