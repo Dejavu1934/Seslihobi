@@ -1,58 +1,31 @@
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http, {
-  cors: { origin: "*" }
-});
+const io = require('socket.io')(http);
+const path = require('path');
 
 app.use(express.static('public'));
 
-const botNames = [
-  "Zeynep_34", "Ahmet_Kral", "Elif_Sohbet", "Mehmet_1905", "Ayşe_Güzeli",
-  "Can_Bey", "Deniz_Yıldız", "Emre_Reis", "Fatma_Sultan", "Gizem_Tatlı",
-  "Hakan_Abi", "Irmak_Su", "Kaan_Boss", "Leyla_Mecnun", "Murat_57",
-  "Nazlı_Kız", "Okan_Güçlü", "Pınar_Deniz", "Rıza_Baba", "Seda_Nur"
-];
-
-const rooms = {
-  "Genel Sohbet": [], "Oyun": [], "Müzik": [], "Gece Kuşları": []
-};
-
-Object.keys(rooms).forEach(room => {
-  for(let i = 0; i < 50; i++) {
-    const randomBot = botNames[Math.floor(Math.random() * botNames.length)];
-    rooms[room].push({
-      id: `bot_${room}_${i}`,
-      name: randomBot + "_" + Math.floor(Math.random() * 999),
-      isBot: true
-    });
-  }
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 io.on('connection', (socket) => {
-  console.log('Kullanıcı bağlandı');
+  console.log('Kullanıcı bağlandı:', socket.id);
   
-  socket.on('joinRoom', (roomName) => {
-    socket.join(roomName);
-    socket.emit('roomUsers', rooms[roomName]);
-    
-    setInterval(() => {
-      if(rooms[roomName].length > 0) {
-        const randomBot = rooms[roomName][Math.floor(Math.random() * rooms[roomName].length)];
-        const mesajlar = ["slm", "nbr", "iyi akşamlar", "müzik açın", "kim var", "ses ver", "mik açın"];
-        io.to(roomName).emit('message', {
-          user: randomBot.name,
-          text: mesajlar[Math.floor(Math.random() * mesajlar.length)],
-          isBot: true
-        });
-      }
-    }, 3000);
+  socket.on('giris', (data) => {
+    console.log('Giriş yapan:', data.nickname, data.gender);
+    socket.nickname = data.nickname;
+    socket.gender = data.gender;
+    socket.emit('giris_basarili');
   });
   
-  socket.on('voice', (data) => {
-    socket.to(data.room).emit('voice', data);
+  socket.on('disconnect', () => {
+    console.log('Kullanıcı ayrıldı:', socket.nickname);
   });
 });
 
 const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => console.log(`Pangi çalışıyor: ${PORT}`));
+http.listen(PORT, () => {
+  console.log('Sunucu çalışıyor: ' + PORT);
+});
