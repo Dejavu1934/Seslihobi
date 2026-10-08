@@ -6,25 +6,25 @@
 <title>Seslihobi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#e8e3d0;width:100%;height:100%;position:fixed;overflow:hidden;display:flex;justify-content:center;font-family:Arial}
-.paper{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);width:88%;max-width:320px;background:#fff;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:20px 14px 0 14px;z-index:10}
-.paper::before{content:'';position:absolute;top:2px;left:6px;right:6px;bottom:-5px;background:#fff;z-index:-1;transform:rotate(0.6deg);box-shadow:0 1px 2px rgba(0,0,0,0.06);border-radius:4px}
-.paper::after{content:'';position:absolute;top:4px;left:3px;right:10px;bottom:-10px;background:#fdfdfd;z-index:-2;transform:rotate(-0.6deg);box-shadow:0 1px 2px rgba(0,0,0,0.05);border-radius:4px}
-.header{display:flex;align-items:center;justify-content:center;margin:4px 0 18px 0}
+body{background:#e8e3d0;width:100%;height:100%;position:fixed;overflow:hidden;font-family:Arial}
+.paper{position:fixed;top:22%;left:50%;transform:translate(-50%,0);width:86%;max-width:300px;background:#fff;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.13);padding:16px 12px 0 12px;z-index:10}
+.paper::before{content:'';position:absolute;top:2px;left:5px;right:5px;bottom:-4px;background:#fff;z-index:-1;transform:rotate(0.5deg);box-shadow:0 1px 2px rgba(0,0,0,0.05);border-radius:4px}
+.paper::after{content:'';position:absolute;top:4px;left:2px;right:8px;bottom:-8px;background:#fdfdfd;z-index:-2;transform:rotate(-0.5deg);box-shadow:0 1px 2px rgba(0,0,0,0.04);border-radius:4px}
+.header{display:flex;align-items:center;justify-content:center;margin:2px 0 14px 0}
 .header::before,.header::after{content:'';flex:1;height:1px;background:#ccc}
-.logo-text{font-weight:700;font-size:22px;color:#6a6a6a;padding:0 12px}
-.input-wrap{border:2px solid #e53935;border-radius:7px;display:flex;align-items:center;padding:0 10px;height:40px;background:#fff;margin:0 2px}
-.input-wrap input{flex:1;border:0;outline:0;font-size:15px;color:#222;padding:0 8px;background:transparent}
+.logo-text{font-weight:700;font-size:20px;color:#6a6a6a;padding:0 10px}
+.input-wrap{border:2px solid #e53935;border-radius:6px;display:flex;align-items:center;padding:0 8px;height:36px;background:#fff;margin:0}
+.input-wrap input{flex:1;border:0;outline:0;font-size:14px;color:#222;padding:0 6px;background:transparent}
 .input-wrap input::placeholder{color:#999}
-.icon-user{width:18px;height:18px}
-.gender{display:flex;justify-content:center;margin:12px 0 0 0}
-.gender button{padding:7px 0;border:1px solid #bbb;background:linear-gradient(to bottom,#f7f7f7,#e6e6e6);font-size:13px;color:#333;min-width:78px;cursor:pointer}
-.gender button:first-child{border-radius:5px 0 0 5px;border-right:0}
-.gender button:last-child{border-radius:0 5px 5px 0}
+.icon-user{width:16px;height:16px}
+.gender{display:flex;justify-content:center;margin:10px 0 0 0}
+.gender button{padding:6px 0;border:1px solid #bbb;background:linear-gradient(to bottom,#f7f7f7,#e6e6e6);font-size:12px;color:#333;min-width:70px;cursor:pointer}
+.gender button:first-child{border-radius:4px 0 0 4px;border-right:0}
+.gender button:last-child{border-radius:0 4px 4px 0}
 .gender button.active{background:#6c4cff;color:#fff;border-color:#6c4cff;font-weight:700}
-.connect{display:block;margin:10px auto 16px auto;background:linear-gradient(to bottom,#ffce4a,#ffb91a);border:1px solid #e5a200;border-radius:18px;padding:6px 22px;font-weight:800;font-size:14px;color:#5a4000;cursor:pointer;box-shadow:0 1px 0 #d49400;min-width:110px}
-.footer{margin:0 -14px;background:linear-gradient(to bottom,#f6f6f6,#ebebeb);border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:9px 0;border-radius:0 0 4px 4px}
-.footer a{color:#777;text-decoration:none;font-size:12px}
+.connect{display:block;margin:8px auto 12px auto;background:linear-gradient(to bottom,#ffce4a,#ffb91a);border:1px solid #e5a200;border-radius:16px;padding:5px 18px;font-weight:800;font-size:13px;color:#5a4000;cursor:pointer;box-shadow:0 1px 0 #d49400;min-width:90px}
+.footer{margin:0 -12px;background:linear-gradient(to bottom,#f6f6f6,#ebebeb);border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:7px 0;border-radius:0 0 4px 4px}
+.footer a{color:#777;text-decoration:none;font-size:11px}
 .lobby,.room{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#101014;overflow:auto;padding:14px}
 .lobby.on,.room.on{display:block}
 .card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:10px;padding:10px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;color:#fff}
@@ -59,7 +59,7 @@ body{background:#e8e3d0;width:100%;height:100%;position:fixed;overflow:hidden;di
 </div>
 <script type="module">
 import {joinRoom, selfId} from "trystero/torrent"
-let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_v4_small"}
+let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_v5_top"}
 window.setGender=(g)=>{gender=g; document.getElementById('bErkek').classList.toggle('active', g==='Erkek'); document.getElementById('bKadin').classList.toggle('active', g==='Kadın')}
 window.baglan=()=>{ let r=document.getElementById('rumuz').value.trim(); if(r.length<3){alert("Rumuz 3 harf");return} nick=r; localStorage.setItem("sh_nick",nick); localStorage.setItem("sh_gender",gender); document.getElementById('loginPage').style.display='none'; document.getElementById('lobby').classList.add('on'); document.getElementById('userNick').innerText=nick+" • "+gender; renderRooms() }
 let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]")
