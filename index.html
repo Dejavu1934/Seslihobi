@@ -17,7 +17,7 @@ body{
   width:90%;max-width:365px;background:#fff;
   border:1px solid #c8c8c8;
   box-shadow:0 0 0 1px #fff, 3px 3px 0 #fff, 4px 4px 0 #d0d0d0, 6px 6px 0 #fff, 7px 7px 0 #c8c8c8, 0 10px 25px rgba(0,0,0,0.18);
-  padding:0;border-radius:3px;overflow:hidden;
+  padding:0;border-radius:3px;
 }
 .header{display:flex;align-items:center;justify-content:center;margin:24px 18px 18px 18px}
 .line{flex:1;height:1px;background:#b5b5b5;margin:0 14px}
@@ -28,23 +28,17 @@ body{
   border-radius:8px;
   display:flex;align-items:center;
   height:52px;background:#fff;
-  padding:0 6px;position:relative;
+  padding:0 8px;gap:8px;
 }
 .input-wrap input{
-  flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;margin-left:4px;
+  flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;
 }
-.avatar{
-  width:36px;height:36px;min-width:36px;
-  background:#e9e9e9;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-}
-.sh-inside{
+.sh-left{
   width:34px;height:34px;min-width:34px;
   background:linear-gradient(135deg,#7a5cff,#4a2de0);
   border-radius:7px;
   display:flex;align-items:center;justify-content:center;
   color:#fff;font-weight:900;font-size:12px;
-  margin-left:auto;
 }
 .gender{display:flex;justify-content:center;margin:14px 0 0 0}
 .gender button{padding:8px 16px;border:1px solid #aaa;background:linear-gradient(to bottom,#f5f5f5,#dddddd);font-size:13px;min-width:82px}
@@ -54,35 +48,27 @@ body{
 .connect{display:block;margin:12px auto 16px auto;background:linear-gradient(to bottom,#ffe07a,#ffb91a);border:1px solid #c99600;border-radius:20px;padding:8px 26px;font-weight:800;font-size:15px;color:#5a3d00;min-width:135px}
 .footer{background:linear-gradient(to bottom,#f7f7f7,#eaeaea);border-top:1px solid #d0d0d0;display:flex;justify-content:space-around;padding:12px 0}
 .footer a{color:#777;text-decoration:none;font-size:13px}
-.lobby,.room{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#101014;overflow:auto;padding:14px}
-.lobby.on,.room.on{display:block}
-.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:10px;padding:10px;margin:8px 0;display:flex;justify-content:space-between;color:#fff}
-.btn{background:#7a5cff;color:#fff;border:0;padding:7px 12px;border-radius:7px}
 </style>
 </head>
 <body>
-<div id="loginPage" class="paper">
+<div class="paper">
   <div class="header"><div class="line"></div><div class="logo-text">Seslihobi</div><div class="line"></div></div>
   <div class="input-wrap">
-    <div class="avatar">
-      <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" fill="#b0b0b0"/><path fill="#b0b0b0" d="M4 20c0-4 3.5-6 8-6s8 2 8 6v1H4v-1z"/></svg>
-    </div>
+    <div class="sh-left">SH</div>
     <input id="rumuz" placeholder="Rumuz..." maxlength="16">
-    <div class="sh-inside">SH</div>
   </div>
   <div class="gender">
-    <button id="bErkek" onclick="setGender('Erkek')" class="active">Erkek</button>
+    <button id="bErkek" class="active" onclick="setGender('Erkek')">Erkek</button>
     <button id="bKadin" onclick="setGender('Kadın')">Kadın</button>
   </div>
-  <button class="connect" onclick="baglan()">Bağlan!</button>
+  <button class="connect">Bağlan!</button>
   <div class="footer"><a>Gizlilik</a><a>Kurallar</a><a>Türkçe</a></div>
 </div>
-<script type="module">
-import {joinRoom, selfId} from "https://esm.sh/trystero@0.21.0"
-let gender="Erkek", nick=""; 
-window.setGender=(g)=>{gender=g; document.getElementById('bErkek').classList.toggle('active', g==='Erkek'); document.getElementById('bKadin').classList.toggle('active', g==='Kadın')}
-window.baglan=()=>{ let r=document.getElementById('rumuz').value.trim(); if(r.length<3){alert("Rumuz 3 harf");return} alert("Giriş: "+r) }
-let s=localStorage.getItem("sh_nick"); if(s) document.getElementById('rumuz').value=s;
+<script>
+function setGender(g){
+  document.getElementById('bErkek').classList.toggle('active', g==='Erkek');
+  document.getElementById('bKadin').classList.toggle('active', g==='Kadın');
+}
 </script>
 </body>
 </html>
