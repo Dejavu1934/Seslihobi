@@ -3,78 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SesliHobi - Canli</title>
+<title>SesliHobi - Giriş</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{background:#101014;color:#fff;font-family:sans-serif}
-.h{background:#1e1e2a;padding:14px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #7c4dff}
-.logo{font-weight:900;font-size:22px}.logo b{color:#7c4dff}
-.c{max-width:900px;margin:0 auto;padding:16px}
-.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:14px;padding:14px;margin:10px 0;display:flex;justify-content:space-between;align-items:center}
-.btn{background:#7c4dff;color:#fff;border:0;padding:10px 16px;border-radius:10px;font-weight:800}
-.inp{background:#1c1c28;border:1px solid #333;color:#fff;padding:11px;border-radius:10px;width:100%;margin:6px 0}
-#room{display:none;height:100vh;flex-direction:column}#room.on{display:flex}
-.peers{display:flex;flex-wrap:wrap;gap:10px;padding:14px;flex:1;align-content:start}
-.peer{background:#1c1c28;border-radius:14px;padding:14px;min-width:140px;text-align:center;border:1px solid #333}
-.foot{padding:12px;background:#1e1e2a;display:flex;gap:8px;justify-content:center;border-top:1px solid #333}
-.circ{width:54px;height:54px;border-radius:50%;border:0;font-size:22px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e9e5d6;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}
+.paper{position:relative;width:92%;max-width:380px;background:#fff;border-radius:2px;box-shadow:0 4px 0 rgba(0,0,0,0.1),0 10px 30px rgba(0,0,0,0.15);padding:24px 18px 0 18px}
+.paper::before{content:'';position:absolute;top:0;left:10px;right:10px;bottom:-8px;background:#fff;z-index:-2;box-shadow:0 2px 4px rgba(0,0,0,0.1);transform:rotate(1deg);border-radius:2px}
+.paper::after{content:'';position:absolute;top:0;left:5px;right:15px;bottom:-14px;background:#fff;z-index:-3;box-shadow:0 2px 4px rgba(0,0,0,0.08);transform:rotate(-1.2deg);border-radius:2px}
+.header{display:flex;align-items:center;justify-content:center;gap:12px;margin:10px 0 22px 0;position:relative}
+.header::before{content:'';flex:1;height:1px;background:linear-gradient(to right, transparent, #aaa)}
+.header::after{content:'';flex:1;height:1px;background:linear-gradient(to left, transparent, #aaa)}
+.logo-text{font-weight:800;font-size:22px;color:#6b6b6b;padding:0 12px;display:flex;align-items:center;gap:8px}
+.sh-badge{width:34px;height:34px;background:linear-gradient(135deg,#7c4dff,#5a2dff);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px}
+.input-wrap{position:relative;border:2px solid #ff3b3b;border-radius:6px;display:flex;align-items:center;padding:0 10px;height:48px;background:#fff;margin:0 6px}
+.input-wrap input{flex:1;border:0;outline:0;font-size:16px;color:#333;padding:0 8px}
+.icon-user{width:22px;height:22px;opacity:0.5}
+.sh-mini{width:28px;height:28px;background:linear-gradient(135deg,#7c4dff,#5a2dff);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:12px}
+.gender{display:flex;justify-content:center;margin:14px 0 0 0}
+.gender button{padding:8px 16px;border:1px solid #ccc;background:linear-gradient(to bottom,#f9f9f9,#e9e9e9);font-size:14px;color:#333;cursor:pointer;min-width:80px}
+.gender button:first-child{border-radius:4px 0 0 4px;border-right:0}
+.gender button:last-child{border-radius:0 4px 4px 0}
+.gender button.active{background:linear-gradient(to bottom,#7c4dff,#5a2dff);color:#fff;border-color:#5a2dff}
+.connect{display:block;margin:12px auto 18px auto;background:linear-gradient(to bottom,#ffd76a,#ffbb1f);border:1px solid #e6a500;border-radius:20px;padding:10px 36px;font-weight:800;font-size:18px;color:#6b4a00;cursor:pointer;box-shadow:0 2px 0 #e6a500,inset 0 1px 0 rgba(255,255,255,0.6)}
+.footer{margin:0 -18px 0 -18px;background:linear-gradient(to bottom,#f7f7f7,#ececec);border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:12px 0}
+.footer a{color:#777;text-decoration:none;font-size:14px}
+.lobby{display:none;max-width:900px;width:100%;margin:0 auto;padding:16px;min-height:100vh;background:#101014}
+.lobby.on{display:block}
+.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:12px;padding:12px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.btn{background:#7c4dff;color:#fff;border:0;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer}
+#roomView{display:none;height:100vh;flex-direction:column;background:#101014}
+#roomView.on{display:flex}
+.peers{flex:1;display:flex;flex-wrap:wrap;gap:10px;padding:14px;align-content:start}
+.peer{background:#1c1c28;border:1px solid #333;border-radius:12px;padding:12px;min-width:130px;text-align:center;color:#fff}
 </style>
 <script type="importmap">{"imports":{"trystero":"https://esm.sh/trystero@0.21.0"}}</script>
 </head>
 <body>
-<div id="lobby">
-<div class="h"><div class="logo">SESLI<b>HOBI</b></div><div id="u"></div></div>
-<div class="c">
-<h2>🔥 Odalar</h2>
-<input id="nick" class="inp" placeholder="Nick'in">
-<input id="roomName" class="inp" placeholder="Yeni oda adi yaz">
-<button class="btn" onclick="makeRoom()">+ Oda Kur</button>
-<div id="list"></div>
+<div id="loginPage" class="paper">
+  <div class="header">
+    <div class="logo-text"><div class="sh-badge">SH</div> Seslihobi</div>
+  </div>
+  <div class="input-wrap">
+    <svg class="icon-user" viewBox="0 0 24 24" fill="#999"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    <input id="rumuz" placeholder="Rumuz..." maxlength="18">
+    <div class="sh-mini">SH</div>
+  </div>
+  <div class="gender">
+    <button id="bErkek" onclick="setGender('Erkek')" class="active">Erkek</button>
+    <button id="bKadin" onclick="setGender('Kadın')">Kadın</button>
+  </div>
+  <button class="connect" onclick="baglan()">Bağlan!</button>
+  <div class="footer">
+    <a href="#">Gizlilik</a>
+    <a href="#">Kurallar</a>
+    <a href="#">Türkçe</a>
+  </div>
 </div>
+<div id="lobby" class="lobby">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;color:#fff"><div style="font-weight:900;font-size:20px">SESLİ<span style="color:#7c4dff">HOBİ</span> <span id="userNick" style="font-weight:400;font-size:14px;opacity:.7;margin-left:10px"></span></div><button class="btn" style="background:#333" onclick="location.reload()">Çıkış</button></div>
+<input id="roomName" style="width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1c1c28;color:#fff;margin:10px 0" placeholder="Oda adı yaz">
+<button class="btn" style="width:100%" onclick="makeRoom()">+ Oda Kur</button>
+<div id="list" style="margin-top:10px"></div>
 </div>
-<div id="room">
-<div class="h"><div><b id="rn"></b> <span id="rc" style="background:#7c4dff22;color:#a48cff;padding:4px 8px;border-radius:20px;font-size:12px"></span></div><button class="btn" onclick="location.reload()" style="background:#333">Cik</button></div>
-<div class="peers" id="peers"></div>
-<div class="foot">
-<button id="micB" class="circ" style="background:#2a2a3a" onclick="toggleMic()">🎤</button>
-<button class="circ" style="background:#ff3344;color:#fff" onclick="location.reload()">✕</button>
-</div>
+<div id="roomView">
+<div style="background:#1e1e2a;padding:12px;display:flex;justify-content:space-between;color:#fff"><div><b id="rn"></b> <span id="rc" style="background:#7c4dff33;padding:3px 8px;border-radius:10px;font-size:12px"></span></div><button class="btn" style="background:#333" onclick="leaveRoom()">Ayrıl</button></div>
+<div id="peers" class="peers"></div>
+<div style="padding:12px;background:#1e1e2a;display:flex;gap:8px;justify-content:center"><button id="micB" onclick="toggleMic()" style="width:54px;height:54px;border-radius:50%;border:0;font-size:22px">🎤</button></div>
 </div>
 <script type="module">
 import {joinRoom, selfId} from "trystero/torrent"
-let nick="", roomAPI=null, localStream=null, micOn=true
-let config={appId:"seslihobi_v1_final"}
-function getNick(){ let v=document.getElementById('nick').value.trim(); if(!v) v="Misafir"+Math.floor(Math.random()*9000); return v; }
+let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_v2_sh"}
+window.setGender=(g)=>{gender=g; document.getElementById('bErkek').classList.toggle('active', g==='Erkek'); document.getElementById('bKadin').classList.toggle('active', g==='Kadın')}
+window.baglan=()=>{
+  let r=document.getElementById('rumuz').value.trim()
+  if(r.length<3){ alert("Rumuz en az 3 harf olsun kral"); return }
+  nick=r; localStorage.setItem("sh_nick", nick); localStorage.setItem("sh_gender", gender)
+  document.getElementById('loginPage').style.display='none'
+  document.getElementById('lobby').classList.add('on')
+  document.getElementById('userNick').innerText=nick+" • "+gender
+  renderRooms()
+}
 let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]")
 function renderRooms(){
   let h=""
-  if(rooms.length==0) h="<div style='opacity:.6;margin-top:12px'>Henuz oda yok, ilk odayi sen kur!</div>"
-  else rooms.forEach(r=>{
-    h+=`<div class="card"><div><b>${r}</b></div><button class="btn" onclick="join('${r}')">Katil</button></div>`
-  })
-  h+=`<div class="card"><div><b>Genel Sohbet</b></div><button class="btn" onclick="join('Genel Sohbet')">Katil</button></div>`
+  if(rooms.length==0) h="<div style='opacity:.6;color:#fff;margin-top:10px'>Henüz oda yok</div>"
+  else rooms.forEach(r=>{ h+=`<div class="card"><div><b>${r}</b></div><button class="btn" onclick="joinRoomFunc('${r}')">Katıl</button></div>` })
+  h+=`<div class="card"><div><b>Genel Sohbet</b><div style="font-size:12px;opacity:.6">Herkese açık</div></div><button class="btn" onclick="joinRoomFunc('Genel Sohbet')">Katıl</button></div>`
   document.getElementById('list').innerHTML=h
 }
-renderRooms()
 window.makeRoom=()=>{
   let n=document.getElementById('roomName').value.trim()
   if(!n) n="Oda "+Math.floor(Math.random()*100)
   if(!rooms.includes(n)){ rooms.unshift(n); localStorage.setItem("sh_rooms", JSON.stringify(rooms)) }
-  join(n)
+  joinRoomFunc(n)
 }
-window.join=async (roomName)=>{
-  nick=getNick()
-  document.getElementById('lobby').style.display='none'
-  document.getElementById('room').classList.add('on')
+window.joinRoomFunc=async (roomName)=>{
+  document.getElementById('lobby').classList.remove('on')
+  document.getElementById('roomView').classList.add('on')
   document.getElementById('rn').innerText=roomName
-  localStream=await navigator.mediaDevices.getUserMedia({audio:true})
+  try{ localStream=await navigator.mediaDevices.getUserMedia({audio:true}) }catch(e){ alert("Mikrofon izni ver kral"); return }
   roomAPI=joinRoom(config, roomName)
-  roomAPI.onPeerJoin(id=> addPeer(id))
-  roomAPI.onPeerLeave(id=> removePeer(id))
+  roomAPI.onPeerJoin(id=>addPeer(id))
+  roomAPI.onPeerLeave(id=>removePeer(id))
   roomAPI.addStream(localStream)
-  roomAPI.onPeerStream((stream, id)=>{
-    let el=document.getElementById("a_"+id)
-    if(el) el.srcObject=stream
-  })
+  roomAPI.onPeerStream((s,id)=>{ let el=document.getElementById("a_"+id); if(el) el.srcObject=s })
   addPeer(selfId, true)
 }
 function addPeer(id, isMe=false){
@@ -83,20 +115,14 @@ function addPeer(id, isMe=false){
   let div=document.createElement("div")
   div.id="peer_"+id
   div.className="peer"
-  div.innerHTML=`<div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#7c4dff,#ff3c8a);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px">${name.charAt(0).toUpperCase()}</div><div><b>${isMe?name+" (Sen)":name}</b></div><audio id="a_${id}" autoplay playsinline></audio>`
+  div.innerHTML=`<div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#7c4dff,#ff3c8a);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px">${name.charAt(0).toUpperCase()}</div><b>${isMe?name+" (Sen)":name}</b><div style="font-size:11px;opacity:.6">${gender}</div><audio id="a_${id}" autoplay playsinline></audio>`
   document.getElementById('peers').appendChild(div)
-  document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kisi"
+  document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kişi"
 }
-function removePeer(id){
-  document.getElementById("peer_"+id)?.remove()
-  document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kisi"
-}
-window.toggleMic=()=>{
-  micOn=!micOn
-  localStream.getAudioTracks().forEach(t=>t.enabled=micOn)
-  document.getElementById('micB').innerText=micOn?"🎤":"🔇"
-  document.getElementById('micB').style.background=micOn?"#2a2a3a":"#ff3344"
-}
+function removePeer(id){ document.getElementById("peer_"+id)?.remove(); document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kişi" }
+window.leaveRoom=()=>{ location.reload() }
+window.toggleMic=()=>{ micOn=!micOn; localStream.getAudioTracks().forEach(t=>t.enabled=micOn); document.getElementById('micB').innerText=micOn?"🎤":"🔇" }
+let saved=localStorage.getItem("sh_nick"); if(saved) document.getElementById('rumuz').value=saved
 </script>
 </body>
 </html>
