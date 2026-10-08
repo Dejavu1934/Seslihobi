@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SesliHobi - Canli</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#101014;color:#fff;font-family:sans-serif}
+.h{background:#1e1e2a;padding:14px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #7c4dff}
+.logo{font-weight:900;font-size:22px}.logo b{color:#7c4dff}
+.c{max-width:900px;margin:0 auto;padding:16px}
+.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:14px;padding:14px;margin:10px 0;display:flex;justify-content:space-between;align-items:center}
+.btn{background:#7c4dff;color:#fff;border:0;padding:10px 16px;border-radius:10px;font-weight:800}
+.inp{background:#1c1c28;border:1px solid #333;color:#fff;padding:11px;border-radius:10px;width:100%;margin:6px 0}
+#room{display:none;height:100vh;flex-direction:column}#room.on{display:flex}
+.peers{display:flex;flex-wrap:wrap;gap:10px;padding:14px;flex:1;align-content:start}
+.peer{background:#1c1c28;border-radius:14px;padding:14px;min-width:140px;text-align:center;border:1px solid #333}
+.foot{padding:12px;background:#1e1e2a;display:flex;gap:8px;justify-content:center;border-top:1px solid #333}
+.circ{width:54px;height:54px;border-radius:50%;border:0;font-size:22px}
+</style>
+<script type="importmap">{"imports":{"trystero":"https://esm.sh/trystero@0.21.0"}}</script>
+</head>
+<body>
+<div id="lobby">
+<div class="h"><div class="logo">SESLI<b>HOBI</b></div><div id="u"></div></div>
+<div class="c">
+<h2>🔥 Odalar</h2>
+<input id="nick" class="inp" placeholder="Nick'in">
+<input id="roomName" class="inp" placeholder="Yeni oda adi yaz">
+<button class="btn" onclick="makeRoom()">+ Oda Kur</button>
+<div id="list"></div>
+</div>
+</div>
+<div id="room">
+<div class="h"><div><b id="rn"></b> <span id="rc" style="background:#7c4dff22;color:#a48cff;padding:4px 8px;border-radius:20px;font-size:12px"></span></div><button class="btn" onclick="location.reload()" style="background:#333">Cik</button></div>
+<div class="peers" id="peers"></div>
+<div class="foot">
+<button id="micB" class="circ" style="background:#2a2a3a" onclick="toggleMic()">🎤</button>
+<button class="circ" style="background:#ff3344;color:#fff" onclick="location.reload()">✕</button>
+</div>
+</div>
+<script type="module">
+import {joinRoom, selfId} from "trystero/torrent"
+let nick="", roomAPI=null, localStream=null, micOn=true
+let config={appId:"seslihobi_v1_final"}
+function getNick(){ let v=document.getElementById('nick').value.trim(); if(!v) v="Misafir"+Math.floor(Math.random()*9000); return v; }
+let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]")
+function renderRooms(){
+  let h=""
+  if(rooms.length==0) h="<div style='opacity:.6;margin-top:12px'>Henuz oda yok, ilk odayi sen kur!</div>"
+  else rooms.forEach(r=>{
+    h+=`<div class="card"><div><b>${r}</b></div><button class="btn" onclick="join('${r}')">Katil</button></div>`
+  })
+  h+=`<div class="card"><div><b>Genel Sohbet</b></div><button class="btn" onclick="join('Genel Sohbet')">Katil</button></div>`
+  document.getElementById('list').innerHTML=h
+}
+renderRooms()
+window.makeRoom=()=>{
+  let n=document.getElementById('roomName').value.trim()
+  if(!n) n="Oda "+Math.floor(Math.random()*100)
+  if(!rooms.includes(n)){ rooms.unshift(n); localStorage.setItem("sh_rooms", JSON.stringify(rooms)) }
+  join(n)
+}
+window.join=async (roomName)=>{
+  nick=getNick()
+  document.getElementById('lobby').style.display='none'
+  document.getElementById('room').classList.add('on')
+  document.getElementById('rn').innerText=roomName
+  localStream=await navigator.mediaDevices.getUserMedia({audio:true})
+  roomAPI=joinRoom(config, roomName)
+  roomAPI.onPeerJoin(id=> addPeer(id))
+  roomAPI.onPeerLeave(id=> removePeer(id))
+  roomAPI.addStream(localStream)
+  roomAPI.onPeerStream((stream, id)=>{
+    let el=document.getElementById("a_"+id)
+    if(el) el.srcObject=stream
+  })
+  addPeer(selfId, true)
+}
+function addPeer(id, isMe=false){
+  if(document.getElementById("peer_"+id)) return
+  let name=isMe? nick : "Misafir"+id.slice(0,4)
+  let div=document.createElement("div")
+  div.id="peer_"+id
+  div.className="peer"
+  div.innerHTML=`<div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#7c4dff,#ff3c8a);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px">${name.charAt(0).toUpperCase()}</div><div><b>${isMe?name+" (Sen)":name}</b></div><audio id="a_${id}" autoplay playsinline></audio>`
+  document.getElementById('peers').appendChild(div)
+  document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kisi"
+}
+function removePeer(id){
+  document.getElementById("peer_"+id)?.remove()
+  document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kisi"
+}
+window.toggleMic=()=>{
+  micOn=!micOn
+  localStream.getAudioTracks().forEach(t=>t.enabled=micOn)
+  document.getElementById('micB').innerText=micOn?"🎤":"🔇"
+  document.getElementById('micB').style.background=micOn?"#2a2a3a":"#ff3344"
+}
+</script>
+</body>
+</html>
