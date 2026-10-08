@@ -2,18 +2,24 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
 <title>Seslihobi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  height:100%;
+  overscroll-behavior:none;
+}
 body{
   background-color:#f5efe0;
   background-image: radial-gradient(#e8ddc1 1.5px, transparent 1.5px);
   background-size: 24px 24px;
-  width:100%;height:100%;position:fixed;overflow:hidden;font-family:Arial,sans-serif;
+  width:100%;height:100dvh;position:fixed;top:0;left:0;
+  overflow:hidden;font-family:Arial,sans-serif;
+  display:flex;justify-content:center;
 }
 .paper{
-  position:fixed;top:9%;left:50%;transform:translateX(-50%);
+  position:absolute;top:9%;left:50%;transform:translateX(-50%);
   width:90%;max-width:365px;background:#fff;
   border:1px solid #c8c8c8;
   box-shadow:0 0 0 1px #fff, 3px 3px 0 #fff, 4px 4px 0 #d0d0d0, 6px 6px 0 #fff, 7px 7px 0 #c8c8c8, 0 10px 25px rgba(0,0,0,0.18);
@@ -28,17 +34,17 @@ body{
   border-radius:8px;
   display:flex;align-items:center;
   height:52px;background:#fff;
-  padding:0 8px;gap:8px;
+  padding:0 10px;gap:8px;
 }
 .input-wrap input{
   flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;
 }
-.sh-left{
-  width:34px;height:34px;min-width:34px;
-  background:linear-gradient(135deg,#7a5cff,#4a2de0);
-  border-radius:7px;
+.input-wrap input::placeholder{color:#888;font-size:16px}
+.avatar-icon{
+  width:32px;height:32px;min-width:32px;
+  font-size:22px;
   display:flex;align-items:center;justify-content:center;
-  color:#fff;font-weight:900;font-size:12px;
+  background:#eee;border-radius:50%;
 }
 .gender{display:flex;justify-content:center;margin:14px 0 0 0}
 .gender button{padding:8px 16px;border:1px solid #aaa;background:linear-gradient(to bottom,#f5f5f5,#dddddd);font-size:13px;min-width:82px}
@@ -51,23 +57,37 @@ body{
 </style>
 </head>
 <body>
-<div class="paper">
+<div class="paper" id="paper">
   <div class="header"><div class="line"></div><div class="logo-text">Seslihobi</div><div class="line"></div></div>
   <div class="input-wrap">
-    <div class="sh-left">SH</div>
-    <input id="rumuz" placeholder="Rumuz..." maxlength="16">
+    <div class="avatar-icon">👤</div>
+    <input id="rumuz" placeholder="Rumuz..." maxlength="16" autocomplete="off">
   </div>
   <div class="gender">
     <button id="bErkek" class="active" onclick="setGender('Erkek')">Erkek</button>
     <button id="bKadin" onclick="setGender('Kadın')">Kadın</button>
   </div>
-  <button class="connect">Bağlan!</button>
+  <button class="connect" onclick="baglan()">Bağlan!</button>
   <div class="footer"><a>Gizlilik</a><a>Kurallar</a><a>Türkçe</a></div>
 </div>
 <script>
+// KLAVYE SABİT KALSIN - yukarı itmeyi engelle
+const paper = document.getElementById('paper');
+let initialTop = paper.offsetTop;
+window.addEventListener('resize', () => {
+  paper.style.top = '9%';
+});
+document.getElementById('rumuz').addEventListener('focus', () => {
+  setTimeout(()=>{ paper.style.top = '9%'; window.scrollTo(0,0); }, 100);
+});
 function setGender(g){
   document.getElementById('bErkek').classList.toggle('active', g==='Erkek');
   document.getElementById('bKadin').classList.toggle('active', g==='Kadın');
+}
+function baglan(){
+  let r=document.getElementById('rumuz').value.trim();
+  if(r.length<3){alert("Rumuz 3 harf");return}
+  alert("Giriş: "+r);
 }
 </script>
 </body>
