@@ -8,11 +8,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   background-color:#e7ddc3;
-  background-image: 
-    radial-gradient(#d8ccb0 1px, transparent 1px),
-    radial-gradient(#d8ccb0 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 0 0, 10px 10px;
+  background-image: radial-gradient(#d8ccb0 1px, transparent 1px), radial-gradient(#d8ccb0 1px, transparent 1px);
+  background-size: 20px 20px; background-position: 0 0, 10px 10px;
   width:100%;height:100%;position:fixed;overflow:hidden;font-family:Arial,sans-serif;
   display:flex;justify-content:center;
 }
@@ -32,13 +29,21 @@ body{
   border-radius:8px;
   display:flex;align-items:center;
   height:52px;background:#fff;
-  padding:0 12px;
+  padding:0 10px;gap:8px;
 }
 .input-wrap input{
-  flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;padding:0 8px;
+  flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;
 }
 .input-wrap input::placeholder{color:#888;font-size:16px}
-.icon-user{width:22px;height:22px}
+.sh-mini{
+  width:28px;height:28px;
+  background:linear-gradient(135deg,#7a5cff,#5a2dff);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:900;font-size:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  flex-shrink:0;
+}
 .gender{display:flex;justify-content:center;margin:16px 0 0 0}
 .gender button{
   padding:10px 20px;border:1px solid #aaa;
@@ -74,8 +79,9 @@ body{
 <div id="loginPage" class="paper">
   <div class="header"><div class="line"></div><div class="logo-text">Seslihobi</div><div class="line"></div></div>
   <div class="input-wrap">
-    <svg class="icon-user" viewBox="0 0 24 24"><path fill="#666" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    <div class="sh-mini">SH</div>
     <input id="rumuz" placeholder="Rumuz..." maxlength="16">
+    <div class="sh-mini">SH</div>
   </div>
   <div class="gender">
     <button id="bErkek" onclick="setGender('Erkek')" class="active">Erkek</button>
@@ -97,7 +103,7 @@ body{
 </div>
 <script type="module">
 import {joinRoom, selfId} from "trystero/torrent"
-let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_final_big"}
+let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_sh_final"}
 window.setGender=(g)=>{gender=g; document.getElementById('bErkek').classList.toggle('active', g==='Erkek'); document.getElementById('bKadin').classList.toggle('active', g==='Kadın')}
 window.baglan=()=>{ let r=document.getElementById('rumuz').value.trim(); if(r.length<3){alert("Rumuz 3 harf");return} nick=r; localStorage.setItem("sh_nick",nick); localStorage.setItem("sh_gender",gender); document.getElementById('loginPage').style.display='none'; document.getElementById('lobby').classList.add('on'); document.getElementById('userNick').innerText=nick+" • "+gender; renderRooms() }
 let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]")
