@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Seslihobi</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#efe9d6;background-image:radial-gradient(#ddd2b3 1px, transparent 1px);background-size:22px 22px;position:fixed;width:100%;height:100dvh;overflow:hidden;font-family:Arial;display:flex;justify-content:center}
+.paper{position:fixed;top:8%;left:50%;transform:translateX(-50%);width:92%;max-width:365px;background:#fff;border:1px solid #bbb;box-shadow:0 12px 25px rgba(0,0,0,.2);border-radius:4px;z-index:1}
+.hdr{display:flex;align-items:center;justify-content:center;margin:24px 18px 18px}
+.line{flex:1;height:1px;background:#bbb;margin:0 12px}
+.logo{font-weight:700;font-size:26px;color:#6e6e6e}
+.box{margin:0 14px;border:2.5px solid #c21e1e;border-radius:8px;height:52px;display:flex;align-items:center;padding:0 10px;gap:8px}
+.box input{flex:1;border:0;outline:0;font-size:17px;background:transparent}
+.ico{width:32px;height:32px;background:#e6e6e6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+.gender{display:flex;justify-content:center;margin-top:14px}
+.gender button{padding:8px 0;width:88px;border:1px solid #999;background:#ddd;font-size:14px;cursor:pointer}
+.gender button:first-child{border-radius:6px 0 0 6px;border-right:0}
+.gender button:last-child{border-radius:0 6px 6px 0}
+.gender button.active{background:#7a5cff!important;color:#fff!important;border-color:#7a5cff!important;font-weight:700}
+.btn{display:block;margin:12px auto 16px;background:#ffca2c;border:1px solid #b89600;border-radius:20px;padding:9px 32px;font-weight:800;font-size:15px;cursor:pointer}
+.foot{background:#eee;border-top:1px solid #ccc;display:flex;justify-content:space-around;padding:12px 0}
+.foot span{color:#777;font-size:13px}
+#popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9999;align-items:center;justify-content:center}
+#popup.show{display:flex}
+.pbox{background:#fff;border-radius:10px;padding:22px 26px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.3);min-width:260px}
+.tick{width:44px;height:44px;background:#4caf50;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 10px}
+#lobby{display:none;position:fixed;inset:0;background:#15151d;z-index:5;padding:14px}
+#lobby.show{display:block}
+.card{background:#1e1e2c;border:1px solid #2d2d40;border-radius:10px;padding:12px;margin:8px 0;display:flex;justify-content:space-between;color:#fff}
+.btn2{background:#7a5cff;color:#fff;border:0;padding:7px 14px;border-radius:7px;font-weight:700}
+</style>
+</head>
+<body>
 
+<div class="paper" id="loginPage">
+<div class="hdr"><div class="line"></div><div class="logo">Seslihobi</div><div class="line"></div></div>
+<div class="box"><div class="ico">👤</div><input type="text" id="rumuz" placeholder="Rumuz..." maxlength="16"></div>
+<div class="gender">
+<button type="button" id="btnErkek" class="active">Erkek</button>
+<button type="button" id="btnKadin">Kadın</button>
+</div>
+<button type="button" class="btn" id="btnBaglan">Bağlan!</button>
+<div class="foot"><span>Gizlilik</span><span>Kurallar</span><span>Türkçe</span></div>
+</div>
+
+<div id="popup"><div class="pbox"><div class="tick">✓</div><b>Giriş Başarılı</b><p style="font-size:13px;color:#666;margin-top:4px">Lütfen bekleyiniz...</p></div></div>
+
+<div id="lobby">
+<div style="display:flex;justify-content:space-between;color:#fff;margin-bottom:12px"><div style="font-weight:900">SESLİ<span style="color:#7a5cff">HOBİ</span> <span id="nickShow" style="font-size:11px;opacity:.6;margin-left:6px"></span></div><button class="btn2" style="background:#333" onclick="location.reload()">Çıkış</button></div>
+<input id="odaAd" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#1e1e2c;color:#fff;margin-bottom:10px" placeholder="Oda adı yaz">
+<button class="btn2" style="width:100%;padding:10px" id="btnOda">+ Oda Kur</button>
+<div id="liste"></div>
+</div>
+
+<script>
+// CİNSİYET SEÇME - GARANTİLİ
+let gender = "Erkek";
+const bE = document.getElementById('btnErkek');
+const bK = document.getElementById('btnKadin');
+bE.addEventListener('click', function(){ gender="Erkek"; bE.classList.add('active'); bK.classList.remove('active'); });
+bK.addEventListener('click', function(){ gender="Kadın"; bK.classList.add('active'); bE.classList.remove('active'); });
+
+// BAĞLAN BUTONU - GARANTİLİ
+document.getElementById('btnBaglan').addEventListener('click', function(){
+  let r = document.getElementById('rumuz').value.trim();
+  if(r.length < 3){ alert("Rumuz en az 3 harf olsun kral!"); return; }
+  localStorage.setItem("sh_nick", r);
+  localStorage.setItem("sh_gender", gender);
+  document.getElementById('popup').classList.add('show');
+  setTimeout(function(){
+    document.getElementById('popup').classList.remove('show');
+    document.getElementById('loginPage').style.display='none';
+    document.getElementById('lobby').classList.add('show');
+    document.getElementById('nickShow').innerText = r+" • "+gender;
+    render();
+  }, 2500);
+});
+
+let rooms = JSON.parse(localStorage.getItem("sh_rooms")||"[]");
+function render(){
+  let h=""; if(rooms.length==0) h="<div style='color:#888;margin-top:10px;font-size:13px'>Oda yok, ilk odayı sen kur</div>";
+  else rooms.forEach(o=>{ h+=`<div class="card"><b>${o}</b><button class="btn2">Katıl</button></div>`});
+  h+=`<div class="card"><div><b>Genel Sohbet</b><div style='font-size:11px;opacity:.5'>Herkes burada</div></div><button class="btn2">Katıl</button></div>`;
+  document.getElementById('liste').innerHTML=h;
+}
+document.getElementById('btnOda').addEventListener('click', function(){
+  let n=document.getElementById('odaAd').value.trim(); if(!n) n="Oda "+Math.floor(Math.random()*90+10);
+  if(!rooms.includes(n)){ rooms.unshift(n); localStorage.setItem("sh_rooms", JSON.stringify(rooms));}
+  render(); document.getElementById('odaAd').value="";
+});
+// Önceki nicki doldur
+let sn=localStorage.getItem("sh_nick"); if(sn) document.getElementById('rumuz').value=sn;
+let sg=localStorage.getItem("sh_gender"); if(sg){ gender=sg; if(sg==="Kadın"){ bK.classList.add('active'); bE.classList.remove('active'); }}
+</script>
+</body>
+</html>
