@@ -7,9 +7,9 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  background-color:#e7ddc3;
-  background-image: radial-gradient(#d8ccb0 1px, transparent 1px), radial-gradient(#d8ccb0 1px, transparent 1px);
-  background-size: 20px 20px; background-position: 0 0, 10px 10px;
+  background-color:#f0e9d6; /* daha açık bej */
+  background-image: radial-gradient(#e0d5b8 1px, transparent 1px), radial-gradient(#e0d5b8 1px, transparent 1px);
+  background-size: 22px 22px; background-position: 0 0, 11px 11px;
   width:100%;height:100%;position:fixed;overflow:hidden;font-family:Arial,sans-serif;
   display:flex;justify-content:center;
 }
@@ -29,19 +29,25 @@ body{
   border-radius:8px;
   display:flex;align-items:center;
   height:52px;background:#fff;
-  padding:0 8px;gap:6px;
+  padding:0 8px;gap:8px;
 }
 .input-wrap input{
   flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;
 }
 .input-wrap input::placeholder{color:#888;font-size:16px}
-.sh-mini{
-  width:34px;height:34px;
-  background:linear-gradient(135deg,#7a5cff,#4a2de0);
-  border-radius:7px;
+.avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:#e8e8e8;
   display:flex;align-items:center;justify-content:center;
-  color:#fff;font-weight:900;font-size:13px;
-  box-shadow:0 1px 3px rgba(0,0,0,0.35);
+  flex-shrink:0;
+}
+.sh-mini{
+  width:30px;height:30px;
+  background:linear-gradient(135deg,#7a5cff,#4a2de0);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:900;font-size:11px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.3);
   flex-shrink:0;
 }
 .gender{display:flex;justify-content:center;margin:14px 0 0 0}
@@ -79,7 +85,9 @@ body{
 <div id="loginPage" class="paper">
   <div class="header"><div class="line"></div><div class="logo-text">Seslihobi</div><div class="line"></div></div>
   <div class="input-wrap">
-    <div class="sh-mini">SH</div>
+    <div class="avatar">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#777" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    </div>
     <input id="rumuz" placeholder="Rumuz..." maxlength="16">
     <div class="sh-mini">SH</div>
   </div>
@@ -103,7 +111,7 @@ body{
 </div>
 <script type="module">
 import {joinRoom, selfId} from "trystero/torrent"
-let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_sh_bigicon"}
+let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_sh_avatar_light"}
 window.setGender=(g)=>{gender=g; document.getElementById('bErkek').classList.toggle('active', g==='Erkek'); document.getElementById('bKadin').classList.toggle('active', g==='Kadın')}
 window.baglan=()=>{ let r=document.getElementById('rumuz').value.trim(); if(r.length<3){alert("Rumuz 3 harf");return} nick=r; localStorage.setItem("sh_nick",nick); localStorage.setItem("sh_gender",gender); document.getElementById('loginPage').style.display='none'; document.getElementById('lobby').classList.add('on'); document.getElementById('userNick').innerText=nick+" • "+gender; renderRooms() }
 let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]")
