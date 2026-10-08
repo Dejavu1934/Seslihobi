@@ -3,35 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Seslihobi - Giriş</title>
+<title>Seslihobi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#e8e3d0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;overflow:hidden;position:fixed;width:100%;height:100%}
-.paper{position:fixed;top:50%;left:50%;transform:translate(-50%,-55%);width:92%;max-width:360px;background:#fff;border-radius:3px;box-shadow:0 2px 0 rgba(0,0,0,0.05),0 8px 25px rgba(0,0,0,0.12);padding:28px 18px 0 18px;z-index:10}
-.paper::before{content:'';position:absolute;top:2px;left:8px;right:8px;bottom:-6px;background:#fefefe;z-index:-1;box-shadow:0 1px 3px rgba(0,0,0,0.08);transform:rotate(0.8deg);border-radius:3px}
-.paper::after{content:'';position:absolute;top:4px;left:4px;right:12px;bottom:-12px;background:#fdfdfd;z-index:-2;box-shadow:0 1px 3px rgba(0,0,0,0.06);transform:rotate(-0.8deg);border-radius:3px}
-.header{display:flex;align-items:center;justify-content:center;margin:8px 0 24px 0;position:relative}
-.header::before,.header::after{content:'';flex:1;height:1px;background:#d0d0d0}
-.logo-text{font-weight:700;font-size:24px;color:#6e6e6e;padding:0 16px}
-.input-wrap{position:relative;border:2px solid #e53935;border-radius:8px;display:flex;align-items:center;padding:0 12px;height:46px;background:#fff;margin:0 4px}
-.input-wrap input{flex:1;border:0;outline:0;font-size:16px;color:#222;padding:0 10px;background:transparent}
-.icon-user{width:20px;height:20px;flex-shrink:0}
-.gender{display:flex;justify-content:center;margin:16px 0 0 0}
-.gender button{padding:9px 0;border:1px solid #bbb;background:linear-gradient(to bottom,#f7f7f7,#e6e6e6);font-size:14px;color:#333;cursor:pointer;min-width:86px}
-.gender button:first-child{border-radius:6px 0 0 6px;border-right:0}
-.gender button:last-child{border-radius:0 6px 6px 0}
+body{background:#e8e3d0;width:100%;height:100%;position:fixed;overflow:hidden;display:flex;justify-content:center;font-family:Arial}
+.paper{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);width:88%;max-width:320px;background:#fff;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.12);padding:20px 14px 0 14px;z-index:10}
+.paper::before{content:'';position:absolute;top:2px;left:6px;right:6px;bottom:-5px;background:#fff;z-index:-1;transform:rotate(0.6deg);box-shadow:0 1px 2px rgba(0,0,0,0.06);border-radius:4px}
+.paper::after{content:'';position:absolute;top:4px;left:3px;right:10px;bottom:-10px;background:#fdfdfd;z-index:-2;transform:rotate(-0.6deg);box-shadow:0 1px 2px rgba(0,0,0,0.05);border-radius:4px}
+.header{display:flex;align-items:center;justify-content:center;margin:4px 0 18px 0}
+.header::before,.header::after{content:'';flex:1;height:1px;background:#ccc}
+.logo-text{font-weight:700;font-size:22px;color:#6a6a6a;padding:0 12px}
+.input-wrap{border:2px solid #e53935;border-radius:7px;display:flex;align-items:center;padding:0 10px;height:40px;background:#fff;margin:0 2px}
+.input-wrap input{flex:1;border:0;outline:0;font-size:15px;color:#222;padding:0 8px;background:transparent}
+.input-wrap input::placeholder{color:#999}
+.icon-user{width:18px;height:18px}
+.gender{display:flex;justify-content:center;margin:12px 0 0 0}
+.gender button{padding:7px 0;border:1px solid #bbb;background:linear-gradient(to bottom,#f7f7f7,#e6e6e6);font-size:13px;color:#333;min-width:78px;cursor:pointer}
+.gender button:first-child{border-radius:5px 0 0 5px;border-right:0}
+.gender button:last-child{border-radius:0 5px 5px 0}
 .gender button.active{background:#6c4cff;color:#fff;border-color:#6c4cff;font-weight:700}
-.connect{display:block;margin:14px auto 20px auto;background:linear-gradient(to bottom,#ffce4a,#ffb91a);border:1px solid #e5a200;border-radius:22px;padding:8px 32px;font-weight:800;font-size:16px;color:#5a4000;cursor:pointer;box-shadow:0 2px 0 #d49400,inset 0 1px 0 rgba(255,255,255,0.7);min-width:140px}
-.footer{margin:0 -18px;background:linear-gradient(to bottom,#f6f6f6,#ebebeb);border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:11px 0}
-.footer a{color:#777;text-decoration:none;font-size:13px}
-.lobby{display:none;max-width:900px;width:100%;padding:16px;min-height:100vh;background:#101014;position:fixed;top:0;left:0;right:0;bottom:0;overflow:auto}
-.lobby.on{display:block}
-.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:12px;padding:12px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;color:#fff}
-.btn{background:#6c4cff;color:#fff;border:0;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer}
-#roomView{display:none;height:100vh;flex-direction:column;background:#101014;position:fixed;top:0;left:0;right:0;bottom:0}
-#roomView.on{display:flex}
-.peers{flex:1;display:flex;flex-wrap:wrap;gap:10px;padding:14px;align-content:start;overflow:auto}
-.peer{background:#1c1c28;border:1px solid #333;border-radius:12px;padding:12px;min-width:130px;text-align:center;color:#fff}
+.connect{display:block;margin:10px auto 16px auto;background:linear-gradient(to bottom,#ffce4a,#ffb91a);border:1px solid #e5a200;border-radius:18px;padding:6px 22px;font-weight:800;font-size:14px;color:#5a4000;cursor:pointer;box-shadow:0 1px 0 #d49400;min-width:110px}
+.footer{margin:0 -14px;background:linear-gradient(to bottom,#f6f6f6,#ebebeb);border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:9px 0;border-radius:0 0 4px 4px}
+.footer a{color:#777;text-decoration:none;font-size:12px}
+.lobby,.room{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#101014;overflow:auto;padding:14px}
+.lobby.on,.room.on{display:block}
+.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:10px;padding:10px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.btn{background:#6c4cff;color:#fff;border:0;padding:7px 12px;border-radius:7px;font-weight:700}
 </style>
 <script type="importmap">{"imports":{"trystero":"https://esm.sh/trystero@0.21.0"}}</script>
 </head>
@@ -39,61 +36,40 @@ body{background:#e8e3d0;min-height:100vh;display:flex;align-items:center;justify
 <div id="loginPage" class="paper">
   <div class="header"><div class="logo-text">Seslihobi</div></div>
   <div class="input-wrap">
-    <svg class="icon-user" viewBox="0 0 24 24"><path fill="#777" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-    <input id="rumuz" placeholder="Rumuz..." maxlength="16">
+    <svg class="icon-user" viewBox="0 0 24 24"><path fill="#666" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    <input id="rumuz" placeholder="Rumuz..." maxlength="14">
   </div>
   <div class="gender">
     <button id="bErkek" onclick="setGender('Erkek')" class="active">Erkek</button>
     <button id="bKadin" onclick="setGender('Kadın')">Kadın</button>
   </div>
   <button class="connect" onclick="baglan()">Bağlan!</button>
-  <div class="footer">
-    <a href="#">Gizlilik</a><a href="#">Kurallar</a><a href="#">Türkçe</a>
-  </div>
+  <div class="footer"><a>Gizlilik</a><a>Kurallar</a><a>Türkçe</a></div>
 </div>
 <div id="lobby" class="lobby">
-<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;color:#fff"><div style="font-weight:900;font-size:20px">SESLİ<span style="color:#6c4cff">HOBİ</span> <span id="userNick" style="font-size:13px;opacity:.7;margin-left:8px"></span></div><button class="btn" style="background:#333" onclick="location.reload()">Çıkış</button></div>
-<input id="roomName" style="width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1c1c28;color:#fff;margin:10px 0" placeholder="Oda adı yaz">
+<div style="display:flex;justify-content:space-between;color:#fff;align-items:center"><div style="font-weight:900">SESLİ<span style="color:#6c4cff">HOBİ</span> <span id="userNick" style="font-size:12px;opacity:.6;margin-left:6px"></span></div><button class="btn" style="background:#333" onclick="location.reload()">Çıkış</button></div>
+<input id="roomName" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#1c1c28;color:#fff;margin:10px 0" placeholder="Oda adı">
 <button class="btn" style="width:100%" onclick="makeRoom()">+ Oda Kur</button>
-<div id="list" style="margin-top:10px"></div>
+<div id="list" style="margin-top:8px"></div>
 </div>
-<div id="roomView">
-<div style="background:#1e1e2a;padding:12px;display:flex;justify-content:space-between;color:#fff"><div><b id="rn"></b> <span id="rc" style="background:#6c4cff33;padding:3px 8px;border-radius:10px;font-size:12px;margin-left:6px"></span></div><button class="btn" style="background:#333" onclick="leaveRoom()">Ayrıl</button></div>
-<div id="peers" class="peers"></div>
-<div style="padding:14px;background:#1e1e2a;display:flex;justify-content:center"><button id="micB" onclick="toggleMic()" style="width:52px;height:52px;border-radius:50%;border:0;background:#2a2a3a;color:#fff;font-size:22px">🎤</button></div>
+<div id="roomView" class="room" style="display:none;flex-direction:column;padding:0">
+<div style="background:#1e1e2a;padding:10px;display:flex;justify-content:space-between;color:#fff"><div><b id="rn"></b> <span id="rc" style="background:#6c4cff33;padding:2px 6px;border-radius:8px;font-size:11px"></span></div><button class="btn" style="background:#333" onclick="location.reload()">Ayrıl</button></div>
+<div id="peers" style="flex:1;display:flex;flex-wrap:wrap;gap:8px;padding:10px;align-content:start;overflow:auto"></div>
+<div style="padding:10px;background:#1e1e2a;display:flex;justify-content:center"><button id="micB" onclick="toggleMic()" style="width:48px;height:48px;border-radius:50%;border:0;background:#2a2a3a;color:#fff">🎤</button></div>
 </div>
 <script type="module">
 import {joinRoom, selfId} from "trystero/torrent"
-let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_v3_fixed"}
+let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_v4_small"}
 window.setGender=(g)=>{gender=g; document.getElementById('bErkek').classList.toggle('active', g==='Erkek'); document.getElementById('bKadin').classList.toggle('active', g==='Kadın')}
-window.baglan=()=>{
-  let r=document.getElementById('rumuz').value.trim()
-  if(r.length<3){ alert("Rumuz en az 3 harf olsun kral"); return }
-  nick=r; localStorage.setItem("sh_nick", nick); localStorage.setItem("sh_gender", gender)
-  document.getElementById('loginPage').style.display='none'
-  document.getElementById('lobby').classList.add('on')
-  document.getElementById('userNick').innerText=nick+" • "+gender
-  renderRooms()
-}
+window.baglan=()=>{ let r=document.getElementById('rumuz').value.trim(); if(r.length<3){alert("Rumuz 3 harf");return} nick=r; localStorage.setItem("sh_nick",nick); localStorage.setItem("sh_gender",gender); document.getElementById('loginPage').style.display='none'; document.getElementById('lobby').classList.add('on'); document.getElementById('userNick').innerText=nick+" • "+gender; renderRooms() }
 let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]")
-function renderRooms(){
-  let h=""; if(rooms.length==0) h="<div style='opacity:.6;color:#fff;margin-top:10px'>Henüz oda yok</div>"
-  else rooms.forEach(r=>{ h+=`<div class="card"><div><b>${r}</b></div><button class="btn" onclick="joinRoomFunc('${r.replace(/'/g,"\\'")}')">Katıl</button></div>` })
-  h+=`<div class="card"><div><b>Genel Sohbet</b><div style="font-size:12px;opacity:.6">Herkese açık</div></div><button class="btn" onclick="joinRoomFunc('Genel Sohbet')">Katıl</button></div>`
-  document.getElementById('list').innerHTML=h
-}
-window.makeRoom=()=>{ let n=document.getElementById('roomName').value.trim(); if(!n) n="Oda "+Math.floor(Math.random()*100); if(!rooms.includes(n)){ rooms.unshift(n); localStorage.setItem("sh_rooms", JSON.stringify(rooms)) } joinRoomFunc(n) }
-window.joinRoomFunc=async (roomName)=>{
-  document.getElementById('lobby').classList.remove('on'); document.getElementById('roomView').classList.add('on'); document.getElementById('rn').innerText=roomName
-  try{ localStream=await navigator.mediaDevices.getUserMedia({audio:true}) }catch(e){ alert("Mikrofon izni ver kral"); location.reload(); return }
-  roomAPI=joinRoom(config, roomName); roomAPI.onPeerJoin(id=>addPeer(id)); roomAPI.onPeerLeave(id=>removePeer(id)); roomAPI.addStream(localStream); roomAPI.onPeerStream((s,id)=>{ let el=document.getElementById("a_"+id); if(el) el.srcObject=s }); addPeer(selfId, true)
-}
-function addPeer(id, isMe=false){ if(document.getElementById("peer_"+id)) return; let name=isMe? nick : "Misafir"+id.slice(0,4); let div=document.createElement("div"); div.id="peer_"+id; div.className="peer"; div.innerHTML=`<div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#6c4cff,#ff3c8a);margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px">${name.charAt(0).toUpperCase()}</div><b>${isMe?name+" (Sen)":name}</b><div style="font-size:11px;opacity:.6">${gender}</div><audio id="a_${id}" autoplay playsinline></audio>`; document.getElementById('peers').appendChild(div); document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kişi" }
+function renderRooms(){ let h=""; if(rooms.length==0) h="<div style='opacity:.5;color:#fff;margin-top:8px;font-size:13px'>Oda yok</div>"; else rooms.forEach(r=>{ h+=`<div class="card"><b>${r}</b><button class="btn" onclick="joinRoomFunc('${r.replace(/'/g,"\\'")}')">Katıl</button></div>` }); h+=`<div class="card"><div><b>Genel Sohbet</b><div style="font-size:11px;opacity:.5">Açık</div></div><button class="btn" onclick="joinRoomFunc('Genel Sohbet')">Katıl</button></div>`; document.getElementById('list').innerHTML=h }
+window.makeRoom=()=>{ let n=document.getElementById('roomName').value.trim(); if(!n) n="Oda "+Math.floor(Math.random()*100); if(!rooms.includes(n)){ rooms.unshift(n); localStorage.setItem("sh_rooms",JSON.stringify(rooms)) } joinRoomFunc(n) }
+window.joinRoomFunc=async (roomName)=>{ document.getElementById('lobby').classList.remove('on'); let rv=document.getElementById('roomView'); rv.classList.add('on'); rv.style.display='flex'; document.getElementById('rn').innerText=roomName; try{ localStream=await navigator.mediaDevices.getUserMedia({audio:true}) }catch(e){ alert("Mikrofon izni ver"); location.reload(); return } roomAPI=joinRoom(config, roomName); roomAPI.onPeerJoin(id=>addPeer(id)); roomAPI.onPeerLeave(id=>removePeer(id)); roomAPI.addStream(localStream); roomAPI.onPeerStream((s,id)=>{ let el=document.getElementById("a_"+id); if(el) el.srcObject=s }); addPeer(selfId,true) }
+function addPeer(id,isMe=false){ if(document.getElementById("peer_"+id)) return; let name=isMe? nick : "M"+id.slice(0,4); let div=document.createElement("div"); div.id="peer_"+id; div.style.cssText="background:#1c1c28;border:1px solid #333;border-radius:10px;padding:10px;min-width:110px;text-align:center;color:#fff"; div.innerHTML=`<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#6c4cff,#ff3c8a);margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-weight:900">${name.charAt(0).toUpperCase()}</div><b style="font-size:13px">${isMe?name+" (Sen)":name}</b><audio id="a_${id}" autoplay playsinline></audio>`; document.getElementById('peers').appendChild(div); document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kişi" }
 function removePeer(id){ document.getElementById("peer_"+id)?.remove(); document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kişi" }
-window.leaveRoom=()=>{ location.reload() }
 window.toggleMic=()=>{ micOn=!micOn; localStream.getAudioTracks().forEach(t=>t.enabled=micOn); document.getElementById('micB').innerText=micOn?"🎤":"🔇" }
-let saved=localStorage.getItem("sh_nick"); if(saved) document.getElementById('rumuz').value=saved
-let sg=localStorage.getItem("sh_gender"); if(sg) setGender(sg)
+let s=localStorage.getItem("sh_nick"); if(s) document.getElementById('rumuz').value=s; let sg=localStorage.getItem("sh_gender"); if(sg) setGender(sg)
 </script>
 </body>
 </html>
