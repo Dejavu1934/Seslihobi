@@ -2,105 +2,107 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
 <title>Seslihobi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#f5efe0; background-image: radial-gradient(#e8ddc1 1.5px, transparent 1.5px); background-size:24px 24px; position:fixed; width:100%; height:100dvh; overflow:hidden; display:flex; justify-content:center; font-family:Arial}
-.paper{position:fixed; top:8%; left:50%; transform:translateX(-50%); width:92%; max-width:360px; background:#fff; border:1px solid #bbb; box-shadow:0 10px 25px rgba(0,0,0,.2); border-radius:4px; z-index:1}
-.header{display:flex; align-items:center; justify-content:center; margin:22px 16px 16px}
-.line{flex:1; height:1px; background:#bbb; margin:0 12px}
+body{background:#efe9d6; background-image: radial-gradient(#ddd2b3 1.2px, transparent 1.2px); background-size:22px 22px; position:fixed; width:100%; height:100dvh; overflow:hidden; font-family:Arial, sans-serif; display:flex; justify-content:center}
+.paper{position:fixed; top:8%; left:50%; transform:translateX(-50%); width:92%; max-width:365px; background:#fff; border:1px solid #c2c2c2; box-shadow:0 0 0 1px #fff, 3px 3px 0 #fff, 4px 4px 0 #c2c2c2, 7px 7px 0 #fff, 8px 8px 0 #b0b0b0, 0 12px 25px rgba(0,0,0,.2); border-radius:3px; z-index:1}
+.header{display:flex; align-items:center; justify-content:center; margin:24px 18px 18px}
+.line{flex:1; height:1px; background:#b5b5b5; margin:0 14px}
 .logo{font-weight:700; font-size:26px; color:#6e6e6e}
-.box{margin:0 14px; border:2.5px solid #c00; border-radius:8px; height:50px; display:flex; align-items:center; padding:0 10px; gap:8px}
-.box input{flex:1; border:0; outline:0; font-size:17px}
-.ico{width:32px; height:32px; background:#eee; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px}
+.box{margin:0 14px; border:2.5px solid #c21e1e; border-radius:8px; height:52px; display:flex; align-items:center; padding:0 10px; gap:8px; background:#fff}
+.box input{flex:1; border:0; outline:0; font-size:17px; background:transparent}
+.ico{width:32px; height:32px; background:#e6e6e6; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0}
 .gender{display:flex; justify-content:center; margin-top:14px}
-.gender button{padding:7px 18px; border:1px solid #aaa; background:linear-gradient(#f5f5f5,#ddd); font-size:13px; min-width:80px; cursor:pointer}
+.gender button{padding:8px 0; width:88px; border:1px solid #999; background:linear-gradient(#f2f2f2,#d8d8d8); font-size:14px; cursor:pointer}
 .gender button:first-child{border-right:0; border-radius:6px 0 0 6px}
 .gender button:last-child{border-radius:0 6px 6px 0}
-.gender button.active{background:#7a5cff; color:#fff; border-color:#7a5cff; font-weight:700}
-.btn{display:block; margin:12px auto 14px; background:linear-gradient(#ffe07a,#ffb91a); border:1px solid #c99600; border-radius:20px; padding:8px 28px; font-weight:800; font-size:15px; color:#5a3d00; cursor:pointer; min-width:130px}
-.foot{display:flex; justify-content:space-around; background:#eee; border-top:1px solid #ccc; padding:11px 0; font-size:13px; color:#777}
+.gender button.active{background:#7a5cff; color:#fff; border-color:#6a4aef; font-weight:700}
+.btn{display:block; margin:12px auto 16px; background:linear-gradient(#ffe07a,#ffb91a); border:1px solid #c99600; border-radius:20px; padding:9px 32px; font-weight:800; font-size:15px; color:#5a3d00; cursor:pointer}
+.foot{background:linear-gradient(#f7f7f7,#eaeaea); border-top:1px solid #d0d0d0; display:flex; justify-content:space-around; padding:12px 0; border-radius:0 0 3px 3px}
+.foot span{color:#777; font-size:13px}
 
-/* GİRİŞ BAŞARILI KÜÇÜK KUTU */
-.popup-bg{display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.35); z-index:999; align-items:center; justify-content:center}
-.popup-bg.on{display:flex}
-.popup{background:#fff; border:1px solid #aaa; border-radius:8px; padding:18px 22px; text-align:center; box-shadow:0 5px 20px rgba(0,0,0,0.3); min-width:260px; max-width:300px}
-.popup .ok{width:42px; height:42px; background:#4caf50; border-radius:50%; color:#fff; font-size:24px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px}
-.popup b{font-size:15px; color:#222}
-.popup p{font-size:13px; color:#666; margin-top:4px}
+/* GİRİŞ BAŞARILI KUTUSU */
+#popup{display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:9999; align-items:center; justify-content:center}
+#popup.on{display:flex}
+.pbox{background:#fff; border-radius:10px; padding:20px 24px; min-width:260px; text-align:center; box-shadow:0 8px 30px rgba(0,0,0,.3); border:1px solid #bbb}
+.pbox .tick{width:44px; height:44px; background:#4caf50; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 10px}
+.pbox b{font-size:15px}
+.pbox p{font-size:13px; color:#666; margin-top:4px}
 
-/* SOHBET ALANI */
-.lobby{display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#101014; padding:14px; overflow:auto; z-index:2}
-.lobby.on{display:block}
-.card{background:#1c1c28; border:1px solid #2a2a3a; border-radius:10px; padding:10px; margin:8px 0; display:flex; justify-content:space-between; color:#fff}
-.btn2{background:#7a5cff; color:#fff; border:0; padding:7px 12px; border-radius:7px; font-weight:700}
+/* LOBİ */
+#lobby{display:none; position:fixed; inset:0; background:#15151d; z-index:5; padding:14px; overflow:auto}
+#lobby.on{display:block}
+.card{background:#1e1e2c; border:1px solid #2d2d40; border-radius:10px; padding:12px; margin:8px 0; display:flex; justify-content:space-between; align-items:center; color:#fff}
+.btn2{background:#7a5cff; color:#fff; border:0; padding:7px 14px; border-radius:7px; font-weight:700; cursor:pointer}
 </style>
-<script type="importmap">{"imports":{"trystero":"https://esm.sh/trystero@0.21.0"}}</script>
 </head>
 <body>
 
-<div class="paper" id="login">
+<div class="paper" id="loginPage">
 <div class="header"><div class="line"></div><div class="logo">Seslihobi</div><div class="line"></div></div>
-<div class="box"><div class="ico">👤</div><input id="rumuz" placeholder="Rumuz..." maxlength="16"></div>
+<div class="box"><div class="ico">👤</div><input id="rumuz" placeholder="Rumuz..." maxlength="16" autocomplete="off"></div>
 <div class="gender">
-<button id="bE" class="active" onclick="setG('Erkek')">Erkek</button>
-<button id="bK" onclick="setG('Kadın')">Kadın</button>
+<button id="bE" class="active" onclick="setGender('Erkek')">Erkek</button>
+<button id="bK" onclick="setGender('Kadın')">Kadın</button>
 </div>
 <button class="btn" onclick="baglan()">Bağlan!</button>
 <div class="foot"><span>Gizlilik</span><span>Kurallar</span><span>Türkçe</span></div>
 </div>
 
-<!-- KÜÇÜK GİRİŞ BAŞARILI KUTUSU -->
-<div id="popup" class="popup-bg">
-<div class="popup">
-<div class="ok">✓</div>
-<b>Giriş Başarılı</b>
-<p>Lütfen bekleyiniz...</p>
+<div id="popup"><div class="pbox"><div class="tick">✓</div><b>Giriş Başarılı</b><p>Lütfen bekleyiniz...</p></div></div>
+
+<div id="lobby">
+<div style="display:flex; justify-content:space-between; color:#fff; align-items:center; margin-bottom:12px">
+<div style="font-weight:900">SESLİ<span style="color:#7a5cff">HOBİ</span> <span id="nickShow" style="font-size:11px; opacity:.6; margin-left:6px"></span></div>
+<button class="btn2" style="background:#333" onclick="location.reload()">Çıkış</button>
 </div>
+<input id="odaAd" style="width:100%; padding:10px; border-radius:8px; border:1px solid #333; background:#1e1e2c; color:#fff; margin-bottom:10px" placeholder="Oda adı yaz">
+<button class="btn2" style="width:100%; padding:10px" onclick="odaKur()">+ Oda Kur</button>
+<div id="liste"></div>
 </div>
 
-<div id="lobby" class="lobby">
-<div style="display:flex; justify-content:space-between; color:#fff; align-items:center"><div style="font-weight:900">SESLİ<span style="color:#7a5cff">HOBİ</span> <span id="nickShow" style="font-size:11px; opacity:.6; margin-left:6px"></span></div><button class="btn2" style="background:#333" onclick="location.reload()">Çıkış</button></div>
-<input id="odaAd" style="width:100%; padding:10px; border-radius:8px; border:1px solid #333; background:#1c1c28; color:#fff; margin:10px 0" placeholder="Oda adı yaz">
-<button class="btn2" style="width:100%" onclick="odaKur()">+ Oda Kur</button>
-<div id="liste" style="margin-top:8px"></div>
-</div>
-
-<script type="module">
-import {joinRoom, selfId} from "trystero/torrent"
-let gender="Erkek", rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]");
-window.setG=(g)=>{gender=g; document.getElementById('bE').classList.toggle('active', g==='Erkek'); document.getElementById('bK').classList.toggle('active', g==='Kadın');}
-window.baglan=()=>{
+<script>
+let gender="Erkek";
+function setGender(g){
+ gender=g;
+ document.getElementById('bE').classList.toggle('active', g==='Erkek');
+ document.getElementById('bK').classList.toggle('active', g==='Kadın');
+}
+function baglan(){
  let r=document.getElementById('rumuz').value.trim();
- if(r.length<3){alert("Rumuz en az 3 harf"); return;}
+ if(r.length<3){ alert("Rumuz en az 3 harf olmalı"); return; }
  localStorage.setItem("sh_nick", r);
  localStorage.setItem("sh_gender", gender);
- // KÜÇÜK KUTU GÖSTER
+ // popup göster
  document.getElementById('popup').classList.add('on');
  setTimeout(()=>{
    document.getElementById('popup').classList.remove('on');
-   document.getElementById('login').style.display='none';
+   document.getElementById('loginPage').style.display='none';
    document.getElementById('lobby').classList.add('on');
-   document.getElementById('nickShow').innerText=r+" • "+gender;
+   document.getElementById('nickShow').innerText = r+" • "+gender;
    render();
  }, 2500);
 }
+let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]");
 function render(){
- let h=""; if(rooms.length==0) h="<div style='color:#fff; opacity:.5; font-size:13px; margin-top:8px'>Oda yok, ilk odayı sen kur</div>";
- else rooms.forEach(rr=>{ h+=`<div class="card"><b>${rr}</b><button class="btn2" onclick="alert('Oda: ${rr} - sesli kısım geliyor')">Katıl</button></div>`});
- h+=`<div class="card"><div><b>Genel Sohbet</b><div style="font-size:11px; opacity:.5">Herkes burada</div></div><button class="btn2" onclick="alert('Genel Sohbete girildi')">Katıl</button></div>`;
+ let h=""; 
+ if(rooms.length==0) h="<div style='color:#888; margin-top:10px; font-size:13px'>Oda yok, ilk odayı sen kur</div>";
+ else rooms.forEach(o=>{ h+=`<div class="card"><b>${o}</b><button class="btn2" onclick="alert('Sesli odaya giriliyor: ${o}')">Katıl</button></div>`});
+ h+=`<div class="card"><div><b>Genel Sohbet</b><div style="font-size:11px; opacity:.5">Herkes burada</div></div><button class="btn2">Katıl</button></div>`;
  document.getElementById('liste').innerHTML=h;
 }
-window.odaKur=()=>{
- let n=document.getElementById('odaAd').value.trim(); if(!n) n="Oda "+Math.floor(Math.random()*90+10);
- if(!rooms.includes(n)){rooms.unshift(n); localStorage.setItem("sh_rooms", JSON.stringify(rooms));}
+function odaKur(){
+ let n=document.getElementById('odaAd').value.trim(); 
+ if(!n) n="Oda "+Math.floor(Math.random()*90+10);
+ if(!rooms.includes(n)){ rooms.unshift(n); localStorage.setItem("sh_rooms", JSON.stringify(rooms));}
  render(); document.getElementById('odaAd').value="";
 }
-let sn=localStorage.getItem("sh_nick"); if(sn) document.getElementById('rumuz').value=sn;
-let sg=localStorage.getItem("sh_gender"); if(sg) setG(sg);
 // klavye sabit kalsın
-document.getElementById('rumuz').addEventListener('focus',()=>{window.scrollTo(0,0);});
+document.getElementById('rumuz').addEventListener('focus', ()=>{ window.scrollTo(0,0); });
+let sn=localStorage.getItem("sh_nick"); if(sn) document.getElementById('rumuz').value=sn;
+let sg=localStorage.getItem("sh_gender"); if(sg) setGender(sg);
 </script>
 </body>
 </html>
