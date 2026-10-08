@@ -7,89 +7,68 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  background-color:#f0e9d6; /* daha açık bej */
-  background-image: radial-gradient(#e0d5b8 1px, transparent 1px), radial-gradient(#e0d5b8 1px, transparent 1px);
-  background-size: 22px 22px; background-position: 0 0, 11px 11px;
+  background-color:#f5efe0;
+  background-image: radial-gradient(#e8ddc1 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
   width:100%;height:100%;position:fixed;overflow:hidden;font-family:Arial,sans-serif;
-  display:flex;justify-content:center;
 }
 .paper{
   position:fixed;top:9%;left:50%;transform:translateX(-50%);
   width:90%;max-width:365px;background:#fff;
   border:1px solid #c8c8c8;
   box-shadow:0 0 0 1px #fff, 3px 3px 0 #fff, 4px 4px 0 #d0d0d0, 6px 6px 0 #fff, 7px 7px 0 #c8c8c8, 0 10px 25px rgba(0,0,0,0.18);
-  padding:0;border-radius:3px;
+  padding:0;border-radius:3px;overflow:hidden;
 }
 .header{display:flex;align-items:center;justify-content:center;margin:24px 18px 18px 18px}
 .line{flex:1;height:1px;background:#b5b5b5;margin:0 14px}
 .logo-text{font-weight:700;font-size:26px;color:#6e6e6e}
 .input-wrap{
-  margin:0 18px;
+  margin:0 14px;
   border:2.5px solid #d12a2a;
   border-radius:8px;
   display:flex;align-items:center;
   height:52px;background:#fff;
-  padding:0 8px;gap:8px;
+  padding:0 6px;position:relative;
 }
 .input-wrap input{
-  flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;
+  flex:1;border:0;outline:0;font-size:17px;color:#222;background:transparent;margin-left:4px;
 }
-.input-wrap input::placeholder{color:#888;font-size:16px}
 .avatar{
-  width:30px;height:30px;border-radius:50%;
-  background:#e8e8e8;
+  width:36px;height:36px;min-width:36px;
+  background:#e9e9e9;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
 }
-.sh-mini{
-  width:30px;height:30px;
+.sh-inside{
+  width:34px;height:34px;min-width:34px;
   background:linear-gradient(135deg,#7a5cff,#4a2de0);
-  border-radius:6px;
+  border-radius:7px;
   display:flex;align-items:center;justify-content:center;
-  color:#fff;font-weight:900;font-size:11px;
-  box-shadow:0 1px 3px rgba(0,0,0,0.3);
-  flex-shrink:0;
+  color:#fff;font-weight:900;font-size:12px;
+  margin-left:auto;
 }
 .gender{display:flex;justify-content:center;margin:14px 0 0 0}
-.gender button{
-  padding:8px 16px;border:1px solid #aaa;
-  background:linear-gradient(to bottom,#f5f5f5,#dddddd);
-  font-size:13px;color:#222;min-width:82px;cursor:pointer;font-weight:500
-}
+.gender button{padding:8px 16px;border:1px solid #aaa;background:linear-gradient(to bottom,#f5f5f5,#dddddd);font-size:13px;min-width:82px}
 .gender button:first-child{border-right:0;border-radius:6px 0 0 6px}
 .gender button:last-child{border-radius:0 6px 6px 0}
 .gender button.active{background:#7a5cff;color:#fff;border-color:#7a5cff;font-weight:700}
-.connect{
-  display:block;margin:12px auto 16px auto;
-  background:linear-gradient(to bottom,#ffe07a,#ffb91a);
-  border:1px solid #c99600;border-radius:20px;
-  padding:8px 26px;font-weight:800;font-size:15px;color:#5a3d00;
-  cursor:pointer;box-shadow:0 2px 0 #b88600, inset 0 1px 0 rgba(255,255,255,0.7);
-  min-width:135px;
-}
-.footer{
-  background:linear-gradient(to bottom,#f7f7f7,#eaeaea);
-  border-top:1px solid #d0d0d0;
-  display:flex;justify-content:space-around;
-  padding:12px 0;border-radius:0 0 3px 3px
-}
+.connect{display:block;margin:12px auto 16px auto;background:linear-gradient(to bottom,#ffe07a,#ffb91a);border:1px solid #c99600;border-radius:20px;padding:8px 26px;font-weight:800;font-size:15px;color:#5a3d00;min-width:135px}
+.footer{background:linear-gradient(to bottom,#f7f7f7,#eaeaea);border-top:1px solid #d0d0d0;display:flex;justify-content:space-around;padding:12px 0}
 .footer a{color:#777;text-decoration:none;font-size:13px}
 .lobby,.room{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#101014;overflow:auto;padding:14px}
 .lobby.on,.room.on{display:block}
-.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:10px;padding:10px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;color:#fff}
-.btn{background:#7a5cff;color:#fff;border:0;padding:7px 12px;border-radius:7px;font-weight:700}
+.card{background:#1c1c28;border:1px solid #2a2a3a;border-radius:10px;padding:10px;margin:8px 0;display:flex;justify-content:space-between;color:#fff}
+.btn{background:#7a5cff;color:#fff;border:0;padding:7px 12px;border-radius:7px}
 </style>
-<script type="importmap">{"imports":{"trystero":"https://esm.sh/trystero@0.21.0"}}</script>
 </head>
 <body>
 <div id="loginPage" class="paper">
   <div class="header"><div class="line"></div><div class="logo-text">Seslihobi</div><div class="line"></div></div>
   <div class="input-wrap">
     <div class="avatar">
-      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#777" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" fill="#b0b0b0"/><path fill="#b0b0b0" d="M4 20c0-4 3.5-6 8-6s8 2 8 6v1H4v-1z"/></svg>
     </div>
     <input id="rumuz" placeholder="Rumuz..." maxlength="16">
-    <div class="sh-mini">SH</div>
+    <div class="sh-inside">SH</div>
   </div>
   <div class="gender">
     <button id="bErkek" onclick="setGender('Erkek')" class="active">Erkek</button>
@@ -98,30 +77,12 @@ body{
   <button class="connect" onclick="baglan()">Bağlan!</button>
   <div class="footer"><a>Gizlilik</a><a>Kurallar</a><a>Türkçe</a></div>
 </div>
-<div id="lobby" class="lobby">
-<div style="display:flex;justify-content:space-between;color:#fff;align-items:center"><div style="font-weight:900">SESLİ<span style="color:#7a5cff">HOBİ</span> <span id="userNick" style="font-size:12px;opacity:.6;margin-left:6px"></span></div><button class="btn" style="background:#333" onclick="location.reload()">Çıkış</button></div>
-<input id="roomName" style="width:100%;padding:10px;border-radius:8px;border:1px solid #333;background:#1c1c28;color:#fff;margin:10px 0" placeholder="Oda adı">
-<button class="btn" style="width:100%" onclick="makeRoom()">+ Oda Kur</button>
-<div id="list" style="margin-top:8px"></div>
-</div>
-<div id="roomView" class="room" style="display:none;flex-direction:column;padding:0">
-<div style="background:#1e1e2a;padding:10px;display:flex;justify-content:space-between;color:#fff"><div><b id="rn"></b> <span id="rc" style="background:#7a5cff33;padding:2px 6px;border-radius:8px;font-size:11px"></span></div><button class="btn" style="background:#333" onclick="location.reload()">Ayrıl</button></div>
-<div id="peers" style="flex:1;display:flex;flex-wrap:wrap;gap:8px;padding:10px;align-content:start;overflow:auto"></div>
-<div style="padding:10px;background:#1e1e2a;display:flex;justify-content:center"><button id="micB" onclick="toggleMic()" style="width:48px;height:48px;border-radius:50%;border:0;background:#2a2a3a;color:#fff">🎤</button></div>
-</div>
 <script type="module">
-import {joinRoom, selfId} from "trystero/torrent"
-let gender="Erkek", roomAPI=null, localStream=null, micOn=true, nick="", config={appId:"seslihobi_sh_avatar_light"}
+import {joinRoom, selfId} from "https://esm.sh/trystero@0.21.0"
+let gender="Erkek", nick=""; 
 window.setGender=(g)=>{gender=g; document.getElementById('bErkek').classList.toggle('active', g==='Erkek'); document.getElementById('bKadin').classList.toggle('active', g==='Kadın')}
-window.baglan=()=>{ let r=document.getElementById('rumuz').value.trim(); if(r.length<3){alert("Rumuz 3 harf");return} nick=r; localStorage.setItem("sh_nick",nick); localStorage.setItem("sh_gender",gender); document.getElementById('loginPage').style.display='none'; document.getElementById('lobby').classList.add('on'); document.getElementById('userNick').innerText=nick+" • "+gender; renderRooms() }
-let rooms=JSON.parse(localStorage.getItem("sh_rooms")||"[]")
-function renderRooms(){ let h=""; if(rooms.length==0) h="<div style='opacity:.5;color:#fff;margin-top:8px;font-size:13px'>Oda yok</div>"; else rooms.forEach(r=>{ h+=`<div class="card"><b>${r}</b><button class="btn" onclick="joinRoomFunc('${r.replace(/'/g,"\\'")}')">Katıl</button></div>` }); h+=`<div class="card"><div><b>Genel Sohbet</b><div style="font-size:11px;opacity:.5">Açık</div></div><button class="btn" onclick="joinRoomFunc('Genel Sohbet')">Katıl</button></div>`; document.getElementById('list').innerHTML=h }
-window.makeRoom=()=>{ let n=document.getElementById('roomName').value.trim(); if(!n) n="Oda "+Math.floor(Math.random()*100); if(!rooms.includes(n)){ rooms.unshift(n); localStorage.setItem("sh_rooms",JSON.stringify(rooms)) } joinRoomFunc(n) }
-window.joinRoomFunc=async (roomName)=>{ document.getElementById('lobby').classList.remove('on'); let rv=document.getElementById('roomView'); rv.classList.add('on'); rv.style.display='flex'; document.getElementById('rn').innerText=roomName; try{ localStream=await navigator.mediaDevices.getUserMedia({audio:true}) }catch(e){ alert("Mikrofon izni ver"); location.reload(); return } roomAPI=joinRoom(config, roomName); roomAPI.onPeerJoin(id=>addPeer(id)); roomAPI.onPeerLeave(id=>removePeer(id)); roomAPI.addStream(localStream); roomAPI.onPeerStream((s,id)=>{ let el=document.getElementById("a_"+id); if(el) el.srcObject=s }); addPeer(selfId,true) }
-function addPeer(id,isMe=false){ if(document.getElementById("peer_"+id)) return; let name=isMe? nick : "M"+id.slice(0,4); let div=document.createElement("div"); div.id="peer_"+id; div.style.cssText="background:#1c1c28;border:1px solid #333;border-radius:10px;padding:10px;min-width:110px;text-align:center;color:#fff"; div.innerHTML=`<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#7a5cff,#ff3c8a);margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-weight:900">${name.charAt(0).toUpperCase()}</div><b style="font-size:13px">${isMe?name+" (Sen)":name}</b><audio id="a_${id}" autoplay playsinline></audio>`; document.getElementById('peers').appendChild(div); document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kişi" }
-function removePeer(id){ document.getElementById("peer_"+id)?.remove(); document.getElementById('rc').innerText=document.getElementById('peers').children.length+" kişi" }
-window.toggleMic=()=>{ micOn=!micOn; localStream.getAudioTracks().forEach(t=>t.enabled=micOn); document.getElementById('micB').innerText=micOn?"🎤":"🔇" }
-let s=localStorage.getItem("sh_nick"); if(s) document.getElementById('rumuz').value=s; let sg=localStorage.getItem("sh_gender"); if(sg) setGender(sg)
+window.baglan=()=>{ let r=document.getElementById('rumuz').value.trim(); if(r.length<3){alert("Rumuz 3 harf");return} alert("Giriş: "+r) }
+let s=localStorage.getItem("sh_nick"); if(s) document.getElementById('rumuz').value=s;
 </script>
 </body>
 </html>
